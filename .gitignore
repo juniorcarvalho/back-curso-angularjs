@@ -9,5 +9,3 @@ __pycache__
 .ipynb_checkpoints/
 staticfiles
 start.sh
-Procfile
-runtime.txt
