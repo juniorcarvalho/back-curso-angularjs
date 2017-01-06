@@ -14,7 +14,8 @@ def contato_api(request):
     elif request.method == 'POST':
         serializer = ContatoSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            op = Operadora.objects.get(pk=int(request.data['operadora']['id']))
+            serializer.save(operadora=op)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

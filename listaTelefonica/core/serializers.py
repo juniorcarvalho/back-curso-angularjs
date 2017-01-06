@@ -6,9 +6,9 @@ class ContatoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contato
         fields = ['nome', 'telefone', 'data', 'operadora']
-
+        depth = 1
 
 class OperadoraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Operadora
-        fields = ['nome', 'codigo', 'categoria', 'preco']
+        fields = ['id', 'nome', 'codigo', 'categoria', 'preco']
