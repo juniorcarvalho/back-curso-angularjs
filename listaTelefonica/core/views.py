@@ -5,7 +5,7 @@ from listaTelefonica.core.models import Contato, Operadora
 from listaTelefonica.core.serializers import ContatoSerializer, OperadoraSerializer
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'DELETE'])
 def contato_api(request):
     if request.method == 'GET':
         contatos = Contato.objects.all()
@@ -14,11 +14,26 @@ def contato_api(request):
     elif request.method == 'POST':
         serializer = ContatoSerializer(data=request.data)
         if serializer.is_valid():
-            op = Operadora.objects.get(pk=int(request.data['operadora']['id']))
-            serializer.save(operadora=op)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            try:
+                op = Operadora.objects.get(pk=int(request.data['operadora']['id']))
+            except Operadora.DoesNotExists:
+                op = None
+            if op:
+                serializer.save(operadora=op)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['DELETE'])
+def contato_api_delete(request, pk):
+    if request.method == 'DELETE':
+        try:
+            contato = Contato.objects.get(pk=pk)
+        except Contato.DoesNotExists:
+            contato = None
+        if contato:
+            contato.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET', 'POST'])
 def operadora_api(request):

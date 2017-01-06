@@ -5,7 +5,7 @@ from listaTelefonica.core.models import Contato, Operadora
 class ContatoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contato
-        fields = ['nome', 'telefone', 'data', 'operadora']
+        fields = ['id', 'nome', 'telefone', 'data', 'operadora']
         depth = 1
 
 class OperadoraSerializer(serializers.ModelSerializer):
