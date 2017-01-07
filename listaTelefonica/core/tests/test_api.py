@@ -45,7 +45,7 @@ class testContato(APITestCase):
 
     def test_delete_contato(self):
         self.client.post(self.url, self.contato, format='json')
-        response = self.client.delete('/contatoDelete/1/', format='json')
+        response = self.client.delete('/contato/1/', format='json')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     # def test_delete_contato_not_found(self):

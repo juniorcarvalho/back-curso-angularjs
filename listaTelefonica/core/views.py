@@ -6,7 +6,7 @@ from listaTelefonica.core.serializers import ContatoSerializer, OperadoraSeriali
 
 
 @api_view(['GET', 'POST', 'DELETE'])
-def contato_api(request):
+def contato_api(request, pk=None):
     if request.method == 'GET':
         contatos = Contato.objects.all()
         serializer = ContatoSerializer(contatos, many=True)
@@ -22,10 +22,7 @@ def contato_api(request):
                 serializer.save(operadora=op)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['DELETE'])
-def contato_api_delete(request, pk):
-    if request.method == 'DELETE':
+    elif request.method == 'DELETE':
         try:
             contato = Contato.objects.get(pk=pk)
         except Contato.DoesNotExists:
@@ -34,6 +31,7 @@ def contato_api_delete(request, pk):
             contato.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 @api_view(['GET', 'POST'])
 def operadora_api(request):
